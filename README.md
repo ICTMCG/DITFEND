@@ -3,10 +3,7 @@ This is an official repository for "Improving Fake News Detection of Influential
 ## Dataset
 The experimental datasets can be seen in `DITFEND_ch/data` folder and `DITFEND_en/data` folder.
 
-If you want to have access to original datasets, you can refer to 
-[FakeNewsNet](https://www.liebertpub.com/doi/abs/10.1089/big.2020.0062?journalCode=big) and [MM-COVID](https://arxiv.org/abs/2011.04088) for the English dataset, and [MDFEND](https://dl.acm.org/doi/abs/10.1145/3459637.3482139) for the Chinese Weibo21 dataset.
-
-## Code
+The original datasets are from [FakeNewsNet](https://arxiv.org/pdf/1809.01286.pdf) and [MM-COVID](https://arxiv.org/abs/2011.04088) for English, and [MDFEND](https://github.com/kennqiang/MDFEND-Weibo21) for Chinese.
 ### Requirements
 ```
 python==3.6.13
