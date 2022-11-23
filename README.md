@@ -14,9 +14,9 @@ torch==1.8.0
 tranformers==4.13.0
 ```
 ### Run
-For the Chinese dataset, you can refer to [README](https://github.com/ICTMCG/DITFEND/edit/main/README.md)
+For the Chinese dataset, you can refer to [README](https://github.com/ICTMCG/DITFEND/blob/main/DITFEND_ch/README.md)
 
-For the English dataset, you can refer to [README](https://github.com/ICTMCG/DITFEND/edit/main/README.md)
+For the English dataset, you can refer to [README](https://github.com/ICTMCG/DITFEND/blob/main/DITFEND_en/README.md)
 
 ## Reference
 ```
