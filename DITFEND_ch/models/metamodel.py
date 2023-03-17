@@ -37,7 +37,6 @@ class Trainer():
                  emb_dim,
                  mlp_dims,
                  task_num,
-                 target_domain,
                  bert_emb,
                  batchsize,
                  use_cuda,
@@ -75,7 +74,6 @@ class Trainer():
         self.dropout = dropout
         self.emb_type = emb_type
         self.task_num = task_num
-        self.target_domain = target_domain
 
         if os.path.exists(log_dir):
             self.log_dir = log_dir
@@ -91,7 +89,7 @@ class Trainer():
 
     def global_update(self, support_sets, query_sets, alpha):
         losses_q = []
-        for i in range(len(support_sets)): # 每一个任务进行局部的参数更新
+        for i in range(len(support_sets)): 
             support_set = support_sets[i]
             query_set = query_sets[i]
             sup_loss = self.local_update(support_set, alpha = alpha)
@@ -163,30 +161,24 @@ class Trainer():
                 if(len(self.split_train_loader[task_i].dataset) > max_num):
                     max_num = len(self.split_train_loader[task_i].dataset)
             for i in tqdm.tqdm(range(int(max_num / self.batchsize))):
-                '''
-                每一个batch中，有很多task
-                '''
+               
                 batch_data_sup = []
                 batch_data_qry = []
                 for task_i in range(task_num):
                     try:
                         batch_data_train_d = data_train_iter[task_i].next()
                     except Exception as error:
-                        # print("from beginning")
                         data_train_iter[task_i] = iter(self.split_train_loader[task_i])
                         batch_data_train_d = data_train_iter[task_i].next()
                     batch_data_train_d = data2gpu(batch_data_train_d, use_cuda = self.use_cuda)
                     batch_data_sup.append(batch_data_train_d)
-                    # print(batch_data_train_d)
                     try:
                         batch_data_train_d = data_train_iter[task_i].next()
                     except Exception as error:
-                        # print("from beginning")
                         data_train_iter[task_i] = iter(self.split_train_loader[task_i])
                         batch_data_train_d = data_train_iter[task_i].next()
                     batch_data_train_d = data2gpu(batch_data_train_d, use_cuda = self.use_cuda)
                     batch_data_qry.append(batch_data_train_d)
-                    # print(batch_data_train_d)
                 loss = self.global_update(batch_data_sup, batch_data_qry, alpha)
                 avg_loss.add(loss.item())
             print("training epoch {}; loss {}".format(epoch_i + 1, avg_loss.item()))
@@ -196,21 +188,21 @@ class Trainer():
             if mark == 'save':
                 best_metric = results['metric']
                 torch.save(self.model.base_model.state_dict(),
-                        'parameter_{}_{}_{}_{}_{}.pkl'.format(self.model.base_model_name, self.task_num, self.emb_type, self.target_domain, best_metric))
+                        'parameter_{}_{}_{}_{}.pkl'.format(self.model.base_model_name, self.task_num, self.emb_type, best_metric))
             elif mark == 'esc':
                 break
             else:
                 continue
-        self.model.base_model.load_state_dict(torch.load('parameter_{}_{}_{}_{}_{}.pkl'.format(self.model.base_model_name, self.task_num, self.emb_type, self.target_domain, best_metric)))
+        self.model.base_model.load_state_dict(torch.load('parameter_{}_{}_{}_{}.pkl'.format(self.model.base_model_name, self.task_num, self.emb_type, best_metric)))
         print("begin test............")
         results = self.test(self.test_loader, test = True)
         # print(results)
         pretty_results = get_pretty_result(results)
-        with open(os.path.join(self.log_dir, self.base_model_name + '_' + self.emb_type + '_' + str(self.task_num) + '_' + str(self.target_domain) + '_test_results.txt'), 'w') as results_file:
+        with open(os.path.join(self.log_dir, self.base_model_name + '_' + self.emb_type + '_' + str(self.task_num) + '_' + '_test_results.txt'), 'w') as results_file:
             print(pretty_results, file = results_file)
         results_file.close()
         print(pretty_results)
-        return results, 'parameter_{}_{}_{}_{}_{}.pkl'.format(self.model.base_model_name, self.task_num, self.emb_type, self.target_domain, best_metric)
+        return results, 'parameter_{}_{}_{}_{}.pkl'.format(self.model.base_model_name, self.task_num, self.emb_type, best_metric)
 
     
     def test(self, dataloader, test = False):
