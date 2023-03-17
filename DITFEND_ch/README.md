@@ -1,7 +1,7 @@
 # Run
 ## Step 1: General Model Training
 ```
-python main.py --meta_task 3 --finetune_domain -1  --model_name bert --emb_type bert --global_lr 0.0007
+python main.py --meta_task 9 --finetune_domain -1  --model_name bert --emb_type bert --global_lr 0.0007
 ```
 ## Step 2: Transferability Quantifying
 ```
