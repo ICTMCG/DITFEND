@@ -7,7 +7,7 @@ from models.textcnn import TextCNNModel
 from models.bigru import BiGRUModel
 from models.bert import BertFNModel
 import tqdm
-from utils.utils import data2gpu, id_2_content, metrics, Averager, Recorder, metrics_weight, get_pretty_result
+from utils.utils import data2gpu, metrics, Averager, Recorder, metrics_weight, get_pretty_result
 import os
 import pandas as pd
 
