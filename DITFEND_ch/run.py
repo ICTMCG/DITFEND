@@ -31,7 +31,6 @@ class Run():
         self.emb_dim = config['emb_dim']
         self.weight_decay = config['weight_decay']
         self.finetune_lr = config['finetune_lr']
-        self.target_domain = config['target_domain']
         self.local_lr = config['local_lr']
         self.global_lr = config['global_lr']
         self.epoch = config['epoch']
@@ -53,58 +52,31 @@ class Run():
         self.test_path = self.root_path + 'test_id.pkl'
 
         self.category_dict = {
-            "科技": 0,  #236
-            "军事": 1,  #343
-            "教育考试": 2,  #491
-            "灾难事故": 3,  #776
-            "政治": 4,  #852
-            "医药健康": 5,  #1000
-            "财经商业": 6,  #1321
-            "文体娱乐": 7,  #1440
-            "社会生活": 8,  #2669
-            # "无法确定": 9   #464
+            "科技": 0,  
+            "军事": 1,  
+            "教育考试": 2,  
+            "灾难事故": 3,  
+            "政治": 4,  
+            "医药健康": 5,  
+            "财经商业": 6,  
+            "文体娱乐": 7,  
+            "社会生活": 8,  
         }
         if(self.meta_task == 3):
             self.category_dict = {
-                "政治": 0,  #852
-                "医药健康": 1,  #1000
-                "文体娱乐": 2,  #1440
+                "政治": 0,  
+                "医药健康": 1,  
+                "文体娱乐": 2,  
             }
         if(self.meta_task == 6):
             self.category_dict = {
-                "教育考试": 0,  #491
-                "灾难事故": 1,  #776
-                "医药健康": 2,  #1000
-                "财经商业": 3,  #1321
-                "文体娱乐": 4,  #1440
-                "社会生活": 5,  #2669
+                "教育考试": 0,
+                "灾难事故": 1,
+                "医药健康": 2,
+                "财经商业": 3, 
+                "文体娱乐": 4,
+                "社会生活": 5, 
             }
-    
-    def get_dataloader_wo_target(self):
-        if self.emb_type == 'bert' and os.path.isfile('bert_dataloader_' + str(self.meta_task) + '_' + str(self.target_domain) + '.pkl'):
-            with open('bert_dataloader_' + str(self.meta_task) + '_' + str(self.target_domain) + '.pkl', 'rb') as f:
-                split_train_loader, train_loader, val_loader, test_loader = pickle.load(f)
-        elif self.emb_type == 'w2v' and os.path.isfile('w2v_dataloader_' + str(self.meta_task) + '_' + str(self.target_domain) + '.pkl'):
-            with open('w2v_dataloader_' + str(self.meta_task) + '_' + str(self.target_domain) + '.pkl', 'rb') as f:
-                split_train_loader, train_loader, val_loader, test_loader = pickle.load(f)
-        else:
-            if self.emb_type == 'bert':
-                loader = bert_data(max_len = self.max_len, batch_size = self.batchsize, vocab_file=self.vocab_file,
-                                category_dict = self.category_dict, task_num = self.meta_task, num_workers = self.num_workers)
-            elif self.emb_type == 'w2v':
-                loader = w2v_data(max_len = self.max_len, batch_size = self.batchsize, vocab_file = self.vocab_file, emb_dim = self.emb_dim,
-                                category_dict = self.category_dict, task_num = self.meta_task, num_workers = self.num_workers)
-            split_train_loader = loader.load_data_split(self.train_path, True, target_domain = self.target_domain)
-            train_loader = loader.load_data(self.train_path, True)
-            val_loader = loader.load_data(self.val_path, False)
-            test_loader = loader.load_data(self.test_path, False)
-            if(self.emb_type == 'bert'):
-                with open('bert_dataloader_' + str(self.meta_task) + '_' + str(self.target_domain) + '.pkl', 'wb') as f:
-                    pickle.dump([split_train_loader, train_loader, val_loader, test_loader], f)
-            elif (self.emb_type == 'w2v'):
-                with open('w2v_dataloader_' + str(self.meta_task) + '_' + str(self.target_domain) + '.pkl', 'wb') as f:
-                    pickle.dump([split_train_loader, train_loader, val_loader, test_loader], f)
-        return split_train_loader, train_loader, val_loader, test_loader
 
     def get_dataloader(self):
         if self.emb_type == 'bert' and os.path.isfile('bert_dataloader_' + str(self.meta_task) + '.pkl'):
@@ -155,7 +127,6 @@ class Run():
                                     emb_dim=self.emb_dim,
                                     mlp_dims = self.mlp_dims,
                                     task_num = self.meta_task,
-                                    target_domain = self.target_domain,
                                     bert_emb = self.bert_emb,
                                     batchsize = self.batchsize,
                                     use_cuda = self.use_cuda,
