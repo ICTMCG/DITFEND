@@ -105,11 +105,7 @@ class Run():
         return split_train_loader, train_loader, val_loader, test_loader
 
     def main(self):
-        if(self.target_domain == -1):
-            split_train_dataloader, train_dataloader, val_dataloader, test_dataloader = self.get_dataloader()
-        else:
-            split_train_dataloader, train_dataloader, val_dataloader, test_dataloader = self.get_dataloader_wo_target()
-        
+        split_train_dataloader, train_dataloader, val_dataloader, test_dataloader = self.get_dataloader()
         train_param = {
             'lr': [self.global_lr] * 10,
         }
