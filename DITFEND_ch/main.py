@@ -90,7 +90,6 @@ config = {
         'epoch': args.epoch,
         'finetune_epoches': args.finetune_epoches,
         'finetune_domain': args.finetune_domain,
-        'target_domain': args.target_domain,
         'model_name': args.model_name,
         'seed': args.seed,
         'log_dir': args.log_dir,
