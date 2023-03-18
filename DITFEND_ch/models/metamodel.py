@@ -16,7 +16,7 @@ class MetaModel(torch.nn.Module):
                  weight_decay, base_model_name):
         super(MetaModel, self).__init__()
         self.base_model_name = base_model_name
-        elif base_model_name == 'textcnn':
+        if base_model_name == 'textcnn':
             self.base_model = TextCNNModel(emb_dim = embed_dim, mlp_dims = mlp_dims, task_num = task_num, bert_emb = bert_emb, dropout = dropout, emb_type = emb_type)
         elif base_model_name == 'bigru':
             self.base_model = BiGRUModel(emb_dim = embed_dim, mlp_dims = mlp_dims, num_layers=1, task_num = task_num, bert_emb = bert_emb, dropout = dropout, emb_type = emb_type)
@@ -154,8 +154,6 @@ class Trainer():
             max_num = 0
             data_train_iter = []
             task_num = len(task_ids)
-            if(self.target_domain != -1):
-                task_num = len(task_ids) - 1
             for task_i in range(task_num):
                 data_train_iter.append(iter(self.split_train_loader[task_i]))
                 if(len(self.split_train_loader[task_i].dataset) > max_num):
