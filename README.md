@@ -1,9 +1,7 @@
 # Improving Fake News Detection of Influential Domain via Domain- and Instance-Level Transfer
 This is an official repository for "Improving Fake News Detection of Influential Domain via Domain- and Instance-Level Transfer", which has been published in COLING 2022. [Paper](https://aclanthology.org/2022.coling-1.250.pdf)
 ## Dataset
-The experimental datasets can be seen in `DITFEND_ch/data` folder and `DITFEND_en/data` folder.
-
-The original datasets are from [FakeNewsNet](https://arxiv.org/pdf/1809.01286.pdf) and [MM-COVID](https://arxiv.org/abs/2011.04088) for English, and [MDFEND](https://github.com/kennqiang/MDFEND-Weibo21) for Chinese.
+We construct our experimental datasets from [FakeNewsNet](https://arxiv.org/pdf/1809.01286.pdf) and [MM-COVID](https://arxiv.org/abs/2011.04088) for English (3-domain), and [MDFEND](https://github.com/kennqiang/MDFEND-Weibo21) for Chinese (9-domain).
 ### Requirements
 ```
 python==3.6.13
@@ -11,6 +9,8 @@ torch==1.8.0
 tranformers==4.13.0
 ```
 ### Run
+We organize our code for Chinese and English datasets respectively, because some experimental settings are different between them.
+
 For the Chinese dataset, you can refer to [README](https://github.com/ICTMCG/DITFEND/blob/main/DITFEND_ch/README.md).
 
 For the English dataset, you can refer to [README](https://github.com/ICTMCG/DITFEND/blob/main/DITFEND_en/README.md).
