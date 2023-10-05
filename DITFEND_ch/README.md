@@ -1,5 +1,5 @@
 # Run
-Take the 9-domain experiment (Finance as the target domain) for an example: 
+Take the 9-domain experiment (**finance** as the target domain) for an example: 
 ## Step 1: General Model Training
 ```
 python main.py --meta_task 9 --finetune_domain -1  --model_name bert --emb_type bert --global_lr 0.0007
